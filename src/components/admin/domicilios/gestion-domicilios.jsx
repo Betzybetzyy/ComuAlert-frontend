@@ -41,7 +41,7 @@ export const GestionDomicilios = () => {
   };
 
   return (
-    <Container title="Alertas" className="flex flex-col sm:flex-row">
+    <Container title="Gestión de domicilios" className="flex flex-col sm:flex-row">
       <TablaDomiciliosAdmin handleOpenEditModal={handleOpenEditModal} />
     </Container>
   );

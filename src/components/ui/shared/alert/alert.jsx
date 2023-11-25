@@ -2,14 +2,14 @@ import React from "react";
 import { Icon } from "../icons/icon-component";
 
 const variants = {
-  info: "text-blue-800 border-blue-300 bg-blue-200",
-  danger: "text-red-800 border-red-300 bg-red-300 border opacity-85",
-  success: "text-green-800 border-green-300 bg-green-200",
-  warning: "text-yellow-800 border-yellow-300 bg-yellow-200",
-  dark: "text-gray-800 border-gray-300 bg-gray-200",
+  info: "text-blue-600 border-blue-300 border",
+  danger: "text-red-600 border-red-300 border bg-red-100 opacity-1 ",
+  success: "text-green-600 border-green-300 border",
+  warning: "text-amber-600 border-yellow-300 border bg-amber-100 opacity-1",
+  dark: "text-gray-600 border-gray-300 border ",
 };
 
-export const Alert = ({ variant, icon, text }) => {
+export const Alert = ({ variant, icon, text, outlined = true }) => {
   const classes = variants[variant] || {};
 
   return (
@@ -18,7 +18,13 @@ export const Alert = ({ variant, icon, text }) => {
       role="alert"
     >
       {icon && (
-        <Icon variant={`${variant}-outlined`} iconActive={false} icon={icon} />
+        <Icon
+          width={8}
+          height={8}
+          variant={`${variant}${outlined ? "-outlined" : ""}`}
+          iconActive={false}
+          icon={icon}
+        />
       )}
       <div>{text}</div>
     </div>

@@ -32,3 +32,12 @@ export const uuidGenerator = () => {
 
   return uuid;
 };
+
+export const rutFormat = (rutSinFormato) => {
+  let valor = rutSinFormato.replace(/[^0-9kK]+/g, "").toUpperCase();
+  if (valor.length > 10) {
+    valor = valor.substring(0, 10);
+  }
+
+  return valor;
+};

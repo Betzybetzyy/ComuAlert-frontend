@@ -30,11 +30,9 @@ export const BusquedaImagen = ({ setPatente }) => {
     try {
       setMensaje("");
       const resp = await patenteArchivoMutate(selectedImage);
-      console.log(resp);
       setPatente(resp);
-    } catch (error) {
-      setMensaje("Error al buscar patente");
-      console.error(error);
+    } catch ({response: {data}}) {
+      setMensaje(data.message || 'Error, contacte al administrador')
     }
   };
 

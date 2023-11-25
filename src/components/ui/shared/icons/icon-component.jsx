@@ -32,7 +32,7 @@ export const Icon = forwardRef(
     return (
       <IconToRender
         ref={ref}
-        className={`h-${height} w-${width} ${createIconColor()} mr-1`}
+        className={`h-${height} w-${width} ${createIconColor()} mr-3`}
       />
     );
   }

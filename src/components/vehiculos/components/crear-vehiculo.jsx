@@ -33,8 +33,9 @@ export const CrearVehiculo = () => {
       toast.success("Vehiculo creado exitosamente");
       dispatch(closeModal());
       dispatch(vehiculoCreado());
-    } catch (error) {
-      console.error(error);
+    } catch ({response: {data}}) {
+      setLoading(false);
+      toast.error(data.message || "Error! Contacte al administrador")
     }
   };
 

@@ -27,6 +27,9 @@ export const useAsociarDomicilio = () => {
 };
 
 export const useObtenerPeticionAsociacion = () => {
-  return useQuery("getPeticionAsociacion", () => obtenerPeticiones());
+  return useQuery("getPeticionAsociacion", () => obtenerPeticiones(), {
+      enabled: false,
+      retry: false,
+  });
 };
 

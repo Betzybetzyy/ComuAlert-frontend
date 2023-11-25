@@ -44,8 +44,8 @@ export const EditarAlerta = (props) => {
       toast.success("Alerta editada exitosamente");
       dispatch(closeModal());
       dispatch(alertaCreada());
-    } catch (error) {
-      console.error(error);
+    } catch ({response: {data}}) {
+      toast.error(data.message || "Error! Contacte al administrador")
     }
   };
 

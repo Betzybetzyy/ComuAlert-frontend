@@ -45,8 +45,8 @@ export const TablaDomiciliosAdmin = ({ handleOpenEditModal }) => {
       await aprobarSolicitudMutation(data);
       toast.success("Solicitud aprobada correctamente");
       dispatch(domicilioAdminCreado());
-    } catch (error) {
-      console.log(error);
+    } catch ({response: {data}}) {
+      toast.error(data.message || "Error! Contacte al administrador")
     }
   };
 
@@ -57,7 +57,7 @@ export const TablaDomiciliosAdmin = ({ handleOpenEditModal }) => {
       {solicitudes?.length > 0 ? (
         <Table titles={tableTitles}>
           {solicitudes?.map((solicitud, index) => (
-            <TR key={solicitud.id}>
+            <TR key={solicitud.id || index}>
               <TD className="text-center">{index + 1}</TD>
               <TD className="text-left">{`${solicitud?.Usuario?.Nombre} ${solicitud?.Usuario?.Apellido}`}</TD>
               <TD className="text-left max-w-xs">

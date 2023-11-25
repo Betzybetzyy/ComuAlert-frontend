@@ -31,8 +31,8 @@ export const CrearAlerta = () => {
       toast.success("Alerta creada exitosamente");
       dispatch(closeModal());
       dispatch(alertaCreada());
-    } catch (error) {
-      console.error(error);
+    } catch ({response: {data}}) {
+      toast.error(data.message || "Error! Contacte al administrador")
     }
   };
 

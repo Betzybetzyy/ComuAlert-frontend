@@ -4,10 +4,10 @@ import { AUTH_TYPES } from "../store/auth/utils/enum";
 import { Layout } from "../components/ui/Layout/layout";
 
 export const ProtectedRoute = ({ allowedRoles }) => {
-  const { status, role, DomicilioId } = useUser();
+  const { status, role, address } = useUser();
   const location = useLocation();
 
-  if (DomicilioId === null && status !== AUTH_TYPES.GUEST) {
+  if (address === null && status !== AUTH_TYPES.GUEST) {
     return <Navigate to="/asociar" state={{ from: location }} replace />;
   }
 

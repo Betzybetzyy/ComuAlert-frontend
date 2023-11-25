@@ -30,8 +30,8 @@ export const CrearDomicilio = () => {
       setLoading(false);
       toast.success("Domicilio creado exitosamente");
       dispatch(closeModal());
-    } catch (error) {
-      console.error(error);
+    } catch ({response: {data}}) {
+      toast.error(data.message || "Error! Contacte al administrador")
     }
   };
 

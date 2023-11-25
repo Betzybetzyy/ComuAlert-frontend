@@ -1,9 +1,9 @@
 import React from "react";
-import { Container } from "../../ui/shared";
+import { Container } from "../ui/shared";
 
-export const GestionAlertas = () => {
+export const Visitas = () => {
   return (
-    <Container title="Gestion Alertas">
+    <Container title="Visitas">
       <div className="flex flex-col items-center justify-center p-10 bg-slate-50 rounded-lg">
         <svg
           className="h-48 w-48" // Esto establece el tamaño del SVG
@@ -35,4 +35,3 @@ export const GestionAlertas = () => {
     </Container>
   );
 };
-

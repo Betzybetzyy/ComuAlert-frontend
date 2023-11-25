@@ -33,6 +33,7 @@ export const AsociarDomicilio = () => {
   const [buttonLoading, setbuttonLoading] = useState(false);
   const [estadoPeticion, setEstadoPeticion] = useState(null);
   const [resolucion, setResolucion] = useState("");
+  const [loadingSpinner, setLoadingSpinner] = useState(true);
 
   const {
     register,
@@ -41,20 +42,36 @@ export const AsociarDomicilio = () => {
     watch,
   } = useForm();
 
-  const { data: peticion, isLoading: isPeticionLoading } =
+  const { data: peticion, isLoading: isPeticionLoading, error: peticionErrors, refetch: peticionRefetch } =
     useObtenerPeticionAsociacion();
   const { data, isLoading, refetch } = useObtenerDomicilios();
   const { mutateAsync: asoiciarDomicilioMutate } = useAsociarDomicilio();
 
   useEffect(() => {
-    if (peticion) {
-      const { Estado, Resolucion } = peticion;
-      setEstadoPeticion(Estado);
-      setResolucion(Resolucion);
-    } else {
-      setEstadoPeticion(null);
-    }
-  }, []);
+    setLoadingSpinner(isPeticionLoading || isLoading);
+  }, [isPeticionLoading, isLoading]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoadingSpinner(true);
+      try {
+        const {data} = await peticionRefetch();
+        if (data?.Estado) {
+          setEstadoPeticion(data.Estado);
+          setResolucion(data.Resolucion);
+        } else {
+          setEstadoPeticion(null);
+        }
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+        setEstadoPeticion(null);
+      } finally {
+        setLoadingSpinner(false);
+      }
+    };
+  
+    fetchData();
+  }, [peticionRefetch]);
 
   useEffect(() => {
     if (data) {
@@ -94,6 +111,12 @@ export const AsociarDomicilio = () => {
         label: `${direccion.Direccion} - ${direccion.Condominio}`,
       };
     });
+  };
+
+  const onSubmit = async (data, e) => {
+    await asoiciarDomicilioMutate(data);
+    toast.success("Petición creada correctamente");
+    setEstadoPeticion(ESTADOS.pendiente);
   };
 
   const asociarDomicilioView = () => {
@@ -142,6 +165,9 @@ export const AsociarDomicilio = () => {
             </Button>
           </div>
         </form>
+        <Button variant="link" onClick={() => handleRedirect()}>
+          Volver
+        </Button>
       </>
     );
   };
@@ -182,12 +208,12 @@ export const AsociarDomicilio = () => {
           que no dudes en ponerte en contacto si necesitas más información o
           asistencia.
         </p>
-        <p>
+        <div>
           Resolución:
           <p className="bg-red-400 bg-opacity-20 rounded-lg text-center ">
             {resolucion}
           </p>
-        </p>
+        </div>
 
         <Button variant="link" onClick={() => handleRedirect()}>
           Volver
@@ -196,18 +222,11 @@ export const AsociarDomicilio = () => {
     );
   };
 
-  const onSubmit = async (data, e) => {
-    e.preventDefault();
-    await asoiciarDomicilioMutate(data);
-    toast.success("peticion creada correctamente");
-    setEstadoPeticion(ESTADOS.pendiente);
-  };
-
   return (
     <div className="flex justify-center min-h-screen pt-8">
       <div className="w-full max-w-4xl p-4">
         <Container title="" className="flex flex-col">
-          {isPeticionLoading ? (
+          {loadingSpinner ? (
             <LoadingSpinner variant="default" />
           ) : (
             <>

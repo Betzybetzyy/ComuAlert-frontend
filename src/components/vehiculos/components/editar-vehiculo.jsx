@@ -40,7 +40,6 @@ export const EditarVehiculo = (props) => {
   const formPadding = isMobile ? "px-4" : "px-12";
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const vehiculoData = { ...data, id };
       setLoading(true);
@@ -49,8 +48,9 @@ export const EditarVehiculo = (props) => {
       toast.success("Vehículo editado exitosamente");
       dispatch(closeModal());
       dispatch(vehiculoCreado());
-    } catch (error) {
-      console.error(error);
+    } catch ({response: {data}}) {
+      setLoading(false);
+      toast.error(data.message || "Error! Contacte al administrador")
     }
   };
 

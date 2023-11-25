@@ -43,8 +43,8 @@ export const TablaVehiculos = ({ handleOpenEditModal }) => {
       dispatch(vehiculoCreado());
       setLoading(false);
       toast.success("Vehiculo eliminado exitosamente");
-    } catch (error) {
-      console.log(error);
+    } catch ({response: {data}}) {
+      toast.error(data.message || "Error! Contacte al administrador")
     }
   };
 

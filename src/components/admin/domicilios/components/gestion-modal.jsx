@@ -32,8 +32,8 @@ export const GestionModal = (props) => {
       dispatch(domicilioAdminCreado());
       setLoading(false);
       dispatch(closeModal());
-    } catch (error) {
-      console.error(error);
+    } catch ({response: {data}}) {
+      toast.error(data.message)
     }
   };
 

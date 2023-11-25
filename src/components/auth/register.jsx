@@ -1,37 +1,27 @@
-import { useForm } from "react-hook-form";
-import { Input, Button, Alert } from "../ui/shared";
-import { validateAuthForm } from "./utils/validations";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { checkingCredentials, login } from "../../store";
-import { useLogin } from "./hooks/use-login";
-import { errorValidation } from "./utils/errors";
+import { useRegister } from "./hooks/use-login";
+import { validateRegisterForm } from "./utils/validations";
+import { Button, Input } from "../ui/shared";
+import { rutFormat } from "../../utils/utils";
+import { checkingCredentials } from "../../store";
 
-export const Login = () => {
-  const schema = validateAuthForm();
+export const Register = () => {
+  const schema = validateRegisterForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { mutateAsync: loginData } = useLogin();
+  const { mutateAsync: registerMutate } = useRegister();
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [rutFormateado, setRutFormateado] = useState("");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = async (data) => {
-    try {
-      setIsLoading(true);
-      dispatch(checkingCredentials());
-      const resp = await loginData(data);
-      dispatch(login(resp));
-      navigate("/dashboard");
-    } catch ({response: {data}}) {
-      setIsLoading(false);
-      setErrorMessage(errorValidation[data.status] || data.message);
-    }
-  };
 
   useEffect(() => {
     errors.Email && setErrorMessage(errors.Email.message);
@@ -42,19 +32,33 @@ export const Login = () => {
     };
   }, [errors]);
 
+  const onSubmit = async (data, e) => {
+    try {
+      e.preventDefault();
+      setIsLoading(true);
+      dispatch(checkingCredentials());
+      const resp = await registerMutate(data);
+      toast.success("Regístro éxitoso");
+      navigate("/login");
+    } catch ({response: {data}}) {
+      setIsLoading(false);
+      setErrorMessage(errorValidation[data.status] || data.message);
+    }
+  };
+
+  const handleRutChange = (e) => {
+    const valorFormateado = rutFormat(e.target.value);
+    setRutFormateado(valorFormateado);
+  };
+
   return (
     <section className="min-h-screen bg-gray-900 flex items-center justify-center sm:py-0 md:h-screen">
       <div className="flex flex-col items-center justify-center px-4 py-4 sm:px-6 sm:py-8 md:px-6 lg:px-0 w-full sm:w-full md:max-w-md">
         <div className="rounded-lg shadow border bg-gray-800 border-gray-700 w-full">
           <div className="p-4 sm:p-6 md:p-8 space-y-2 sm:space-y-4 md:space-y-6">
             <h1 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight tracking-tight text-white">
-              Iniciar sesión
+              Regístrate
             </h1>
-            <Alert
-              variant="warning"
-              icon="WarningIcon"
-              text="Tu primer inicio de sesión podría tomar unos segundos adicionales mientras nuestro servidor se activa. ¡Gracias por tu paciencia!"
-            />
             <form
               className="space-y-2 sm:space-y-4 md:space-y-6"
               onSubmit={handleSubmit(onSubmit)}
@@ -70,7 +74,41 @@ export const Login = () => {
                   variant="dark"
                 />
               </div>
-
+              <div>
+                <Input
+                  register={register}
+                  schema={schema}
+                  name="Rut"
+                  label="Rut"
+                  placeholder="Ingrese rut"
+                  required
+                  variant="dark"
+                  onChange={handleRutChange}
+                  value={rutFormateado}
+                />
+              </div>
+              <div>
+                <Input
+                  register={register}
+                  schema={schema}
+                  name="Nombre"
+                  label="Nombre"
+                  placeholder="Ingrese nombre"
+                  required
+                  variant="dark"
+                />
+              </div>
+              <div>
+                <Input
+                  register={register}
+                  schema={schema}
+                  name="Apellido"
+                  label="Apellido"
+                  placeholder="Ingrese apellido"
+                  required
+                  variant="dark"
+                />
+              </div>
               <div>
                 <Input
                   register={register}
@@ -83,6 +121,7 @@ export const Login = () => {
                   variant="dark"
                 />
               </div>
+
               <div className="flex items-center w-full">
                 {errorMessage && <Alert variant="danger" text={errorMessage} />}
               </div>
@@ -92,15 +131,15 @@ export const Login = () => {
                 isLoading={isLoading}
                 fullWidth
               >
-                Iniciar sesión
+                Registrarse
               </Button>
               <p className="text-sm font-light  text-gray-400 inline-flex items-center">
-                No tienes cuenta aún?
+                Ya tienes una cuenta?
                 <Button
                   variant="link-warning"
-                  onClick={() => navigate("/register")}
+                  onClick={() => navigate("/login")}
                 >
-                  Regístrate
+                  Inicia sesión
                 </Button>
               </p>
             </form>

@@ -9,6 +9,5 @@ export async function obtenerVehiculos() {
 
 export async function obtenerVehiculoPatente(data) {
   const response = await client.get(`${VEHICULOS_URL}/patente/${data}`);
-  console.log(response);
   return Promise.resolve(response?.data?.data);
 }
