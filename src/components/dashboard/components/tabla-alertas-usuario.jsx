@@ -55,7 +55,7 @@ export const TablaAlertasUsuario = ({ handleOpenEditModal }) => {
               </TD>
               <TD className="text-left">{alerta.Resolucion}</TD>
               <TD className="text-left whitespace-nowrap">
-                {dateFormat(alerta.FechaEdicion)}
+                {alerta.FechaEdicion ? dateFormat(alerta.FechaEdicion) : ''}
               </TD>
               <TD className="text-center">
                 <Badge

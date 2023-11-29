@@ -7,5 +7,7 @@ export const modalTypesKeys = {
   crearVehiculo: "crearVehiculo",
   editarVehiculo: "editarVehiculo",
   asociarDomicilio: "asociarDomicilio",
+  aprobarRechazarAlerta: "aprobarRechazarAlerta",
   aprobarRechazarDomicilio: "aprobarRechazarDomicilio",
+
 };

@@ -3,7 +3,7 @@ import { obtenerPeticionesDomicilioAdmin } from "../../../../services/queries";
 import { aprobarSolicitud, rechazarSolicitud } from "../../../../services/mutations";
 
 export const useDomicilioAdmin = () => {
-  return useQuery("getUserAlerts", () => obtenerPeticionesDomicilioAdmin());
+  return useQuery("getDomiciliosPeticiones", () => obtenerPeticionesDomicilioAdmin());
 };
 
 export const useRechazarSolicitud = () => {

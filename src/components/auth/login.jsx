@@ -29,7 +29,7 @@ export const Login = () => {
       navigate("/dashboard");
     } catch ({response: {data}}) {
       setIsLoading(false);
-      setErrorMessage(errorValidation[data.status] || data.message);
+      setErrorMessage(data.message || errorValidation[data.status] );
     }
   };
 

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, Select } from "../../ui/shared";
+import { Button, Input, LoadingSpinner, Select } from "../../ui/shared";
 import { validarFormularioAlertas } from "../utils/validations";
 import { useCrearAlertas } from "../hooks/use-alertas";
 import { toast } from "react-toastify";

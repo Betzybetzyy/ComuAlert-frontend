@@ -31,10 +31,6 @@ export const Domicilio = () => {
               <strong>Fecha Creación:</strong>{" "}
               {dateFormat(domicilio.FechaCreacion)}
             </p>
-            <p>
-              <strong>Fecha Edición:</strong>{" "}
-              {dateFormat(domicilio.FechaEdicion)}
-            </p>
           </div>
         )}
       </div>

@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useRegister } from "./hooks/use-login";
 import { validateRegisterForm } from "./utils/validations";
-import { Button, Input } from "../ui/shared";
+import { Alert, Button, Input } from "../ui/shared";
 import { rutFormat } from "../../utils/utils";
 import { checkingCredentials } from "../../store";
+import { errorValidation } from "./utils/errors";
+import { toast } from "react-toastify";
 
 export const Register = () => {
   const schema = validateRegisterForm();
@@ -38,11 +40,11 @@ export const Register = () => {
       setIsLoading(true);
       dispatch(checkingCredentials());
       const resp = await registerMutate(data);
-      toast.success("Regístro éxitoso");
+      toast.success("Usuario creado correctamente");
       navigate("/login");
     } catch ({response: {data}}) {
       setIsLoading(false);
-      setErrorMessage(errorValidation[data.status] || data.message);
+      setErrorMessage(data.message || errorValidation[data.status] );
     }
   };
 
